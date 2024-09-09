@@ -1,4 +1,4 @@
-package com.farzin.rickmortymultimodular
+package com.farzin.rickmortymultimodular.ui.screens.character_detail.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
@@ -14,15 +14,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.farzin.network.domain.model.CharacterStatus
 import com.farzin.rickmortymultimodular.ui.theme.RickMortyMultiModularTheme
+import com.farzin.rickmortymultimodular.ui.theme.RickTextPrimary
 
 @Composable
 fun CharacterStatusComponent(characterStatus: CharacterStatus) {
+
+    val borderColor = when(characterStatus){
+        CharacterStatus.Alive -> Color.Green
+        CharacterStatus.Dead -> Color.Red
+        CharacterStatus.Unknown -> Color.Yellow
+    }
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .border(
                 width = 1.dp,
-                color = Color.Red,
+                color = borderColor,
                 shape = RoundedCornerShape(12.dp)
             )
             .padding(horizontal = 12.dp, vertical = 4.dp)
@@ -30,7 +38,7 @@ fun CharacterStatusComponent(characterStatus: CharacterStatus) {
         Text(
             text = "Status: ${characterStatus.status}",
             fontSize = 20.sp,
-            color = Color.White
+            color = RickTextPrimary
         )
     }
 }
