@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Rick&MortyMultiModular"
 include(":app")
+include(":network")
