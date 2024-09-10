@@ -58,7 +58,14 @@ fun CharacterDetailScreen(
     }
 
     LaunchedEffect(true) {
-        characters = ktorClient.getCharacter(id)
+        ktorClient
+            .getCharacter(id)
+            .onSuccess {
+                characters = it
+            }
+            .onFailure {
+                // todo exception
+            }
     }
 
     LazyColumn(

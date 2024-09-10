@@ -14,6 +14,7 @@ import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.request.get
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import java.lang.Exception
 
 class KtorClient {
 
@@ -36,10 +37,21 @@ class KtorClient {
     }
 
 
-    suspend fun getCharacter(id:Int) : LocalCharacter {
-        return client.get("character/$id")
-            .body<RemoteCharacter>()
-            .remoteCharacterToLocalCharacter()
+    suspend fun getCharacter(id:Int) : ApiOperation<LocalCharacter> {
+        return safeApiCall {
+            client.get("character/$id")
+                .body<RemoteCharacter>()
+                .remoteCharacterToLocalCharacter()
+        }
+    }
+
+
+    private inline fun <T> safeApiCall(apiCall:()->T) : ApiOperation<T>{
+        return try {
+            ApiOperation.Success(data = apiCall())
+        }catch (e:Exception){
+            ApiOperation.Failure(exception = e)
+        }
     }
 
 }
