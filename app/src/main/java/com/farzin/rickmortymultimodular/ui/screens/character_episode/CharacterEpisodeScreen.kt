@@ -6,9 +6,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,7 +24,9 @@ import androidx.compose.ui.unit.dp
 import com.farzin.network.data.client.KtorClient
 import com.farzin.network.domain.model.LocalCharacter
 import com.farzin.network.domain.model.LocalEpisode
+import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.CharacterDataPointComponent
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.CharacterNamePlateComponent
+import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.DataPoint
 import com.farzin.rickmortymultimodular.ui.screens.character_episode.components.CharacterImage
 import com.farzin.rickmortymultimodular.ui.screens.character_episode.components.CharacterNameComponent
 import com.farzin.rickmortymultimodular.ui.screens.character_episode.components.EpisodeRowComponent
@@ -77,6 +82,9 @@ fun CharacterEpisodeScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(character:LocalCharacter,episode: List<LocalEpisode>) {
+
+    val episodeBySeasonMap = episode.groupBy { it.seasonNumber }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -87,10 +95,27 @@ fun MainScreen(character:LocalCharacter,episode: List<LocalEpisode>) {
 
         item { CharacterNameComponent(name = character.name) }
         item { Spacer(Modifier.height(16.dp)) }
+        item {
+            LazyRow(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                episodeBySeasonMap.forEach {mapEntry->
+                    val title = "Season ${mapEntry.key}"
+                    val description = "${mapEntry.value.size} ep"
+                    item {
+                        CharacterDataPointComponent(
+                            dataPoint = DataPoint(title, description)
+                        )
+                        Spacer(Modifier.width(32.dp))
+                    }
+                }
+            }
+        }
+        item { Spacer(Modifier.height(16.dp)) }
         item { CharacterImage(imageUrl=character.image) }
         item { Spacer(Modifier.height(32.dp)) }
 
-        episode.groupBy { it.seasonNumber }.forEach { mapEntry ->
+        episodeBySeasonMap.forEach { mapEntry ->
             val seasonNumber = mapEntry.key
             val episodesList = mapEntry.value
             stickyHeader {
