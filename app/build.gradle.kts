@@ -70,4 +70,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.coil.compose)
+
+    //compose navigation
+    implementation ("androidx.navigation:navigation-compose:2.8.0")
 }

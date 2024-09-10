@@ -16,9 +16,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 import com.farzin.network.client.KtorClient
 import com.farzin.network.domain.model.LocalCharacter
 import com.farzin.network.remote.dto.RemoteCharacter
+import com.farzin.rickmortymultimodular.navigation.NavGraph
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.CharacterDetailScreen
 import com.farzin.rickmortymultimodular.ui.theme.RickMortyMultiModularTheme
 import com.farzin.rickmortymultimodular.ui.theme.RickPrimary
@@ -33,15 +35,17 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
 
+            val navController = rememberNavController()
+
             RickMortyMultiModularTheme {
 
                 Scaffold(modifier = Modifier
                     .fillMaxSize()
                     .statusBarsPadding()
                 ) {
-                    CharacterDetailScreen(
-                        ktorClient = ktorClient,
-                        id = 85
+                    NavGraph(
+                        navController = navController,
+                        ktorClient = ktorClient
                     )
                 }
             }

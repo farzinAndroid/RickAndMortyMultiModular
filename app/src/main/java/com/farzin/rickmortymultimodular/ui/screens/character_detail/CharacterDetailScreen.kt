@@ -29,12 +29,12 @@ import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.D
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.CharacterDataPointComponent
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.Loading
 import com.farzin.rickmortymultimodular.ui.theme.RickPrimary
-import com.farzin.rickmortymultimodular.ui.theme.RickTextPrimary
 
 @Composable
 fun CharacterDetailScreen(
     ktorClient: KtorClient,
-    id: Int,
+    characterId: Int,
+    onEpisodeButtonClicked:(Int)->Unit
 ) {
     var characters by remember {
         mutableStateOf<LocalCharacter?>(null)
@@ -59,7 +59,7 @@ fun CharacterDetailScreen(
 
     LaunchedEffect(true) {
         ktorClient
-            .getCharacter(id)
+            .getCharacter(characterId)
             .onSuccess {
                 characters = it
             }
@@ -115,7 +115,7 @@ fun CharacterDetailScreen(
 
         item {
             BorderedButton(
-                onClick = {}
+                onClick = {onEpisodeButtonClicked(characterId)}
             )
         }
 
