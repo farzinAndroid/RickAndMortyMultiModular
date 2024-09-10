@@ -21,13 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
-import com.farzin.network.client.KtorClient
+import com.farzin.network.data.client.KtorClient
 import com.farzin.network.domain.model.LocalCharacter
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.BorderedButton
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.CharacterNamePlateComponent
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.DataPoint
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.CharacterDataPointComponent
-import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.Loading
+import com.farzin.rickmortymultimodular.ui.screens.components.Loading
 import com.farzin.rickmortymultimodular.ui.theme.RickPrimary
 
 @Composable
@@ -36,14 +36,14 @@ fun CharacterDetailScreen(
     characterId: Int,
     onEpisodeButtonClicked:(Int)->Unit
 ) {
-    var characters by remember {
+    var character by remember {
         mutableStateOf<LocalCharacter?>(null)
     }
 
     val characterDataPoints: List<DataPoint> by remember {
         derivedStateOf {
             buildList {
-                characters?.let { character ->
+                character?.let { character ->
                     add(DataPoint("Last known location", character.location.name))
                     add(DataPoint("Gender", character.gender.gender))
                     add(DataPoint("Species", character.species))
@@ -61,7 +61,7 @@ fun CharacterDetailScreen(
         ktorClient
             .getCharacter(characterId)
             .onSuccess {
-                characters = it
+                character = it
             }
             .onFailure {
                 // todo exception
@@ -75,15 +75,15 @@ fun CharacterDetailScreen(
         contentPadding = PaddingValues(16.dp)
     ) {
 
-        if (characters == null) {
+        if (character == null) {
             item { Loading() }
             return@LazyColumn
         }
 
         item {
             CharacterNamePlateComponent(
-                name = characters!!.name,
-                status = characters!!.status
+                name = character!!.name,
+                status = character!!.status
             )
         }
 
@@ -91,7 +91,7 @@ fun CharacterDetailScreen(
 
         item {
             SubcomposeAsyncImage(
-                model = characters!!.image,
+                model = character!!.image,
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxWidth()

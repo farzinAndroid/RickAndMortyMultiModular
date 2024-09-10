@@ -3,7 +3,7 @@ package com.farzin.network.domain.model
 
 data class LocalCharacter(
     val created: String,
-    val episode: List<String>,
+    val episode: List<Int>,
     val gender: GenderStatus,
     val id: Int,
     val image: String,

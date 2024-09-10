@@ -1,8 +1,11 @@
-package com.farzin.network.client
+package com.farzin.network.data.client
 
-import com.farzin.network.domain.mappers.remoteCharacterToLocalCharacter
+import com.farzin.network.data.mappers.remoteCharacterToLocalCharacter
 import com.farzin.network.domain.model.LocalCharacter
-import com.farzin.network.remote.dto.RemoteCharacter
+import com.farzin.network.data.dto.RemoteCharacter
+import com.farzin.network.data.dto.RemoteEpisode
+import com.farzin.network.data.mappers.remoteEpisodeToLocalEpisode
+import com.farzin.network.domain.model.LocalEpisode
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
@@ -37,16 +40,30 @@ class KtorClient {
     }
 
 
+    private val characterCache = mutableMapOf<Int,LocalCharacter>()
     suspend fun getCharacter(id:Int) : ApiOperation<LocalCharacter> {
+        characterCache[id]?.let { return ApiOperation.Success(it) }
         return safeApiCall {
             client.get("character/$id")
                 .body<RemoteCharacter>()
                 .remoteCharacterToLocalCharacter()
+                .also {
+                    characterCache[id] = it
+                }
+        }
+    }
+
+    suspend fun getEpisodes(episodeIds:List<Int>) : ApiOperation<List<LocalEpisode>>{
+        val idsCommaSeperated = episodeIds.joinToString(", ")
+        return safeApiCall {
+            client.get("episode/$idsCommaSeperated")
+                .body<List<RemoteEpisode>>()
+                .map { it.remoteEpisodeToLocalEpisode() }
         }
     }
 
 
-    private inline fun <T> safeApiCall(apiCall:()->T) : ApiOperation<T>{
+    private inline fun <T> safeApiCall(apiCall:()->T) : ApiOperation<T> {
         return try {
             ApiOperation.Success(data = apiCall())
         }catch (e:Exception){

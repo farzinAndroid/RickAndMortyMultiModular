@@ -1,11 +1,11 @@
-package com.farzin.network.domain.mappers
+package com.farzin.network.data.mappers
 
 import com.farzin.network.domain.model.CharacterStatus
 import com.farzin.network.domain.model.GenderStatus
 import com.farzin.network.domain.model.LocalCharacter
 import com.farzin.network.domain.model.Location
 import com.farzin.network.domain.model.Origin
-import com.farzin.network.remote.dto.RemoteCharacter
+import com.farzin.network.data.dto.RemoteCharacter
 
 
 fun RemoteCharacter.remoteCharacterToLocalCharacter() =
@@ -20,7 +20,7 @@ fun RemoteCharacter.remoteCharacterToLocalCharacter() =
         status = CharacterStatus.fromString(this.status),
         location = Location(this.location.name,this.location.url),
         created = this.created,
-        episode = this.episode,
+        episode = this.episode.map { it.substring(it.lastIndexOf("/") + 1).toInt() },
         species = this.species
 
     )

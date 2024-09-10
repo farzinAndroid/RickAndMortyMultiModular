@@ -72,5 +72,5 @@ dependencies {
     implementation(libs.coil.compose)
 
     //compose navigation
-    implementation ("androidx.navigation:navigation-compose:2.8.0")
+    implementation (libs.androidx.navigation.compose)
 }

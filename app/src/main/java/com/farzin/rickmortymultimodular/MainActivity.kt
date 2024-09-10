@@ -17,9 +17,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.farzin.network.client.KtorClient
+import com.farzin.network.data.client.KtorClient
 import com.farzin.network.domain.model.LocalCharacter
-import com.farzin.network.remote.dto.RemoteCharacter
+import com.farzin.network.data.dto.RemoteCharacter
 import com.farzin.rickmortymultimodular.navigation.NavGraph
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.CharacterDetailScreen
 import com.farzin.rickmortymultimodular.ui.theme.RickMortyMultiModularTheme

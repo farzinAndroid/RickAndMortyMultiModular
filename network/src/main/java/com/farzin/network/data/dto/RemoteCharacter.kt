@@ -1,4 +1,4 @@
-package com.farzin.network.remote.dto
+package com.farzin.network.data.dto
 
 import kotlinx.serialization.Serializable
 

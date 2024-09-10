@@ -1,4 +1,4 @@
-package com.farzin.rickmortymultimodular.ui.screens.character_detail.components
+package com.farzin.rickmortymultimodular.ui.screens.components
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
