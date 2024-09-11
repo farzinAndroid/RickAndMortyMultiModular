@@ -24,11 +24,15 @@ import com.farzin.rickmortymultimodular.navigation.NavGraph
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.CharacterDetailScreen
 import com.farzin.rickmortymultimodular.ui.theme.RickMortyMultiModularTheme
 import com.farzin.rickmortymultimodular.ui.theme.RickPrimary
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val ktorClient = KtorClient()
+    @Inject
+    lateinit var ktorClient: KtorClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
