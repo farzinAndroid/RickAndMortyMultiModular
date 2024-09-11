@@ -4,6 +4,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -13,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.farzin.network.domain.model.LocalCharacter
@@ -23,7 +25,7 @@ import com.farzin.rickmortymultimodular.ui.theme.RickAction
 fun CharacterGridItem(
     modifier: Modifier = Modifier,
     character: LocalCharacter,
-    onClick: () -> Unit,
+    onClick: (Int) -> Unit,
 ) {
 
     Column(
@@ -34,7 +36,7 @@ fun CharacterGridItem(
                 shape = RoundedCornerShape(12.dp)
             )
             .clip(RoundedCornerShape(12.dp))
-            .clickable { onClick() }
+            .clickable { onClick(character.id) }
     ) {
 
         Box {
@@ -48,10 +50,13 @@ fun CharacterGridItem(
             text = character.name,
             color = RickAction,
             fontWeight = FontWeight.Bold,
-            fontSize = 26.sp,
-            lineHeight = 26.sp,
+            fontSize = 24.sp,
+            lineHeight = 24.sp,
             modifier = Modifier
-                .padding(6.dp)
+                .padding(8.dp)
+                .fillMaxWidth(),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
 
 

@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CharacterViewmodel @Inject constructor(
+class CharacterDetailsViewmodel @Inject constructor(
     private val characterRepo: CharacterRepo,
 ) : ViewModel() {
 

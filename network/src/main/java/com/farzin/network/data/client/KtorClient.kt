@@ -1,10 +1,13 @@
 package com.farzin.network.data.client
 
 import com.farzin.network.data.dto.RemoteCharacter
+import com.farzin.network.data.dto.RemoteCharacterPage
 import com.farzin.network.data.dto.RemoteEpisode
+import com.farzin.network.data.dto.remoteCharacterPageToLocalCharacterPage
 import com.farzin.network.data.mappers.remoteCharacterToLocalCharacter
 import com.farzin.network.data.mappers.remoteEpisodeToLocalEpisode
 import com.farzin.network.domain.model.LocalCharacter
+import com.farzin.network.domain.model.LocalCharacterPage
 import com.farzin.network.domain.model.LocalEpisode
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -74,6 +77,15 @@ class KtorClient {
                     .body<List<RemoteEpisode>>()
                     .map { it.remoteEpisodeToLocalEpisode() }
             }
+        }
+    }
+
+
+    suspend fun getCharacterList(pageNumber:Int) : ApiOperation<LocalCharacterPage>{
+        return safeApiCall {
+            client.get("character/?page=$pageNumber")
+                .body<RemoteCharacterPage>()
+                .remoteCharacterPageToLocalCharacterPage()
         }
     }
 

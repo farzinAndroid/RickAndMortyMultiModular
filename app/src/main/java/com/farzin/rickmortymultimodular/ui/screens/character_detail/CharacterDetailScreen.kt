@@ -24,11 +24,11 @@ import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.C
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.CharacterDataPointComponent
 import com.farzin.rickmortymultimodular.ui.screens.common_components.Loading
 import com.farzin.rickmortymultimodular.ui.theme.RickPrimary
-import com.farzin.rickmortymultimodular.viewmodel.CharacterViewmodel
+import com.farzin.rickmortymultimodular.viewmodel.CharacterDetailsViewmodel
 
 @Composable
 fun CharacterDetailScreen(
-    viewModel: CharacterViewmodel = hiltViewModel(),
+    viewModel: CharacterDetailsViewmodel = hiltViewModel(),
     characterId: Int,
     onEpisodeButtonClicked:(Int)->Unit
 ) {

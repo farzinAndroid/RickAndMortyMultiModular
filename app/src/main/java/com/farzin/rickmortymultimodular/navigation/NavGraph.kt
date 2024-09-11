@@ -22,13 +22,24 @@ fun NavGraph(
         navController = navController,
         startDestination = Screens.CharacterList.route
     ){
-        composable(Screens.CharacterDetail.route){
-            CharacterDetailScreen(
-                characterId = 4,
-                onEpisodeButtonClicked = {characterId->
-                    navController.navigate(Screens.CharacterEpisodes.route + "/$characterId")
+        composable(
+            Screens.CharacterDetail.route+ "/{characterId}",
+            arguments = listOf(
+                navArgument("characterId"){
+                    type = NavType.IntType
+                    nullable = false
+                    defaultValue = -1
                 }
             )
+        ){
+            it.arguments!!.getInt("characterId")?.let { characterId->
+                CharacterDetailScreen(
+                    characterId = characterId,
+                    onEpisodeButtonClicked = {id->
+                        navController.navigate(Screens.CharacterEpisodes.route + "/$id")
+                    }
+                )
+            }
         }
 
         composable(
@@ -48,7 +59,9 @@ fun NavGraph(
 
 
         composable(Screens.CharacterList.route){
-            CharacterListScreen()
+            CharacterListScreen(
+                navController = navController
+            )
         }
     }
 
