@@ -23,7 +23,6 @@ fun NavGraph(
     ){
         composable(Screens.CharacterDetail.route){
             CharacterDetailScreen(
-                ktorClient = ktorClient,
                 characterId = 4,
                 onEpisodeButtonClicked = {characterId->
                     navController.navigate(Screens.CharacterEpisodes.route + "/$characterId")

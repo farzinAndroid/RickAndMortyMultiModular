@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.SubcomposeAsyncImage
 import com.farzin.network.data.client.KtorClient
 import com.farzin.network.domain.model.LocalCharacter
@@ -29,44 +31,20 @@ import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.D
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.CharacterDataPointComponent
 import com.farzin.rickmortymultimodular.ui.screens.components.Loading
 import com.farzin.rickmortymultimodular.ui.theme.RickPrimary
+import com.farzin.rickmortymultimodular.viewmodel.CharacterViewmodel
 
 @Composable
 fun CharacterDetailScreen(
-    ktorClient: KtorClient,
+    viewModel: CharacterViewmodel = hiltViewModel(),
     characterId: Int,
     onEpisodeButtonClicked:(Int)->Unit
 ) {
-    var character by remember {
-        mutableStateOf<LocalCharacter?>(null)
-    }
-
-    val characterDataPoints: List<DataPoint> by remember {
-        derivedStateOf {
-            buildList {
-                character?.let { character ->
-                    add(DataPoint("Last known location", character.location.name))
-                    add(DataPoint("Gender", character.gender.gender))
-                    add(DataPoint("Species", character.species))
-                    add(DataPoint("Origin", character.origin.name))
-                    add(DataPoint("Episode count", character.episode.size.toString()))
-                    character.type.takeIf { it.isNotEmpty() }?.let { type ->
-                        add(DataPoint("Type", type))
-                    }
-                }
-            }
-        }
-    }
 
     LaunchedEffect(true) {
-        ktorClient
-            .getCharacter(characterId)
-            .onSuccess {
-                character = it
-            }
-            .onFailure {
-                // todo exception
-            }
+        viewModel.getCharacterDetails(characterId)
     }
+
+    val state by viewModel.characterDetailsViewState.collectAsState()
 
     LazyColumn(
         modifier = Modifier
@@ -75,51 +53,56 @@ fun CharacterDetailScreen(
         contentPadding = PaddingValues(16.dp)
     ) {
 
-        if (character == null) {
-            item { Loading() }
-            return@LazyColumn
-        }
-
-        item {
-            CharacterNamePlateComponent(
-                name = character!!.name,
-                status = character!!.status
-            )
-        }
-
-        item { Spacer(Modifier.height(8.dp)) }
-
-        item {
-            SubcomposeAsyncImage(
-                model = character!!.image,
-                contentDescription = "",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(12.dp)),
-                loading = {
-                    Loading()
+        when(val viewState = state){
+            CharacterDetailsViewState.Loading -> item { Loading() }
+            is CharacterDetailsViewState.Error -> {
+                // todo error
+            }
+            is CharacterDetailsViewState.Success -> {
+                item {
+                    CharacterNamePlateComponent(
+                        name = viewState.character.name,
+                        status = viewState.character.status
+                    )
                 }
-            )
+
+                item { Spacer(Modifier.height(8.dp)) }
+
+                item {
+                    SubcomposeAsyncImage(
+                        model = viewState.character.image,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1f)
+                            .clip(RoundedCornerShape(12.dp)),
+                        loading = {
+                            Loading()
+                        }
+                    )
+                }
+
+
+                items(viewState.dataPoints){
+                    Spacer(Modifier.height(32.dp))
+                    CharacterDataPointComponent(it)
+                }
+
+
+                item { Spacer(Modifier.height(32.dp)) }
+
+
+                item {
+                    BorderedButton(
+                        onClick = {onEpisodeButtonClicked(characterId)}
+                    )
+                }
+
+                item { Spacer(Modifier.height(64.dp)) }
+            }
         }
 
 
-        items(characterDataPoints){
-            Spacer(Modifier.height(32.dp))
-            CharacterDataPointComponent(it)
-        }
-
-
-        item { Spacer(Modifier.height(32.dp)) }
-
-
-        item {
-            BorderedButton(
-                onClick = {onEpisodeButtonClicked(characterId)}
-            )
-        }
-
-        item { Spacer(Modifier.height(64.dp)) }
 
 
     }
