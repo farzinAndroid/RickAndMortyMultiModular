@@ -25,13 +25,12 @@ import com.farzin.network.data.client.KtorClient
 import com.farzin.network.domain.model.LocalCharacter
 import com.farzin.network.domain.model.LocalEpisode
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.CharacterDataPointComponent
-import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.CharacterNamePlateComponent
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.DataPoint
-import com.farzin.rickmortymultimodular.ui.screens.character_episode.components.CharacterImage
+import com.farzin.rickmortymultimodular.ui.screens.common_components.CharacterImage
 import com.farzin.rickmortymultimodular.ui.screens.character_episode.components.CharacterNameComponent
 import com.farzin.rickmortymultimodular.ui.screens.character_episode.components.EpisodeRowComponent
 import com.farzin.rickmortymultimodular.ui.screens.character_episode.components.SeasonHeader
-import com.farzin.rickmortymultimodular.ui.screens.components.Loading
+import com.farzin.rickmortymultimodular.ui.screens.common_components.Loading
 import com.farzin.rickmortymultimodular.ui.theme.RickPrimary
 import kotlinx.coroutines.launch
 

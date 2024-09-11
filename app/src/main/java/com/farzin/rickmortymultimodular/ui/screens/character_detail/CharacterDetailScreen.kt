@@ -13,23 +13,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.SubcomposeAsyncImage
-import com.farzin.network.data.client.KtorClient
-import com.farzin.network.domain.model.LocalCharacter
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.BorderedButton
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.CharacterNamePlateComponent
-import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.DataPoint
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.components.CharacterDataPointComponent
-import com.farzin.rickmortymultimodular.ui.screens.components.Loading
+import com.farzin.rickmortymultimodular.ui.screens.common_components.Loading
 import com.farzin.rickmortymultimodular.ui.theme.RickPrimary
 import com.farzin.rickmortymultimodular.viewmodel.CharacterViewmodel
 

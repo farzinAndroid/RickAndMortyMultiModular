@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.farzin.network.data.client.KtorClient
 import com.farzin.rickmortymultimodular.ui.screens.character_detail.CharacterDetailScreen
 import com.farzin.rickmortymultimodular.ui.screens.character_episode.CharacterEpisodeScreen
+import com.farzin.rickmortymultimodular.ui.screens.character_list.CharacterListScreen
 
 @Composable
 fun NavGraph(
@@ -19,7 +20,7 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = Screens.CharacterDetail.route
+        startDestination = Screens.CharacterList.route
     ){
         composable(Screens.CharacterDetail.route){
             CharacterDetailScreen(
@@ -43,6 +44,11 @@ fun NavGraph(
             it.arguments!!.getInt("characterId")?.let { characterId->
                 CharacterEpisodeScreen(characterId,ktorClient)
             }
+        }
+
+
+        composable(Screens.CharacterList.route){
+            CharacterListScreen()
         }
     }
 
