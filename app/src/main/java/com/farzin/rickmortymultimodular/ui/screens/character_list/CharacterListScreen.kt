@@ -23,6 +23,7 @@ import androidx.navigation.NavController
 import com.farzin.rickmortymultimodular.navigation.Screens
 import com.farzin.rickmortymultimodular.ui.screens.character_list.components.CharacterGridItem
 import com.farzin.rickmortymultimodular.ui.screens.common_components.Loading
+import com.farzin.rickmortymultimodular.ui.screens.common_components.SimpleToolbar
 import com.farzin.rickmortymultimodular.ui.theme.RickPrimary
 import com.farzin.rickmortymultimodular.viewmodel.CharacterListViewmodel
 
@@ -51,7 +52,6 @@ fun CharacterListScreen(
             return@derivedStateOf lastDisPlayedIndex >= currentCharacterCount - 15
         }
     }
-    Log.e("TAG",fetchNextPage.toString())
     LaunchedEffect(fetchNextPage) {
         Log.e("TAG",fetchNextPage.toString())
         if (fetchNextPage){
@@ -71,22 +71,25 @@ fun CharacterListScreen(
             }
 
             is CharacterListScreenViewState.GridDisplay -> {
-                LazyVerticalGrid(
-                    state = lazyGridState,
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier
-                        .background(RickPrimary),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(state.characters, key = { it.id }) {
-                        CharacterGridItem(
-                            character = it,
-                            onClick = { characterId ->
-                                navController.navigate(Screens.CharacterDetail.route + "/$characterId")
-                            }
-                        )
+                Column {
+                    SimpleToolbar(title = "Characters")
+                    LazyVerticalGrid(
+                        state = lazyGridState,
+                        columns = GridCells.Fixed(2),
+                        modifier = Modifier
+                            .background(RickPrimary),
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(state.characters, key = { it.id }) {
+                            CharacterGridItem(
+                                character = it,
+                                onClick = { characterId ->
+                                    navController.navigate(Screens.CharacterDetail.route + "/$characterId")
+                                }
+                            )
+                        }
                     }
                 }
             }

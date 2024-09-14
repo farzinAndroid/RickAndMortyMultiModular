@@ -37,7 +37,8 @@ fun NavGraph(
                     characterId = characterId,
                     onEpisodeButtonClicked = {id->
                         navController.navigate(Screens.CharacterEpisodes.route + "/$id")
-                    }
+                    },
+                    navController = navController
                 )
             }
         }
@@ -53,7 +54,7 @@ fun NavGraph(
             )
         ){
             it.arguments!!.getInt("characterId")?.let { characterId->
-                CharacterEpisodeScreen(characterId,ktorClient)
+                CharacterEpisodeScreen(characterId,ktorClient,navController)
             }
         }
 
