@@ -44,3 +44,9 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 
+[bundles]
+ktor = [
+    "ktor-client-content-negotiation","ktor-client-logging",
+    "ktor-client-okhttp","ktor-serialization-kotlinx-json","ktor-client-core"
+]
+
